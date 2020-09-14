@@ -1,30 +1,35 @@
 const express = require('express')
 const jwt = require('jsonwebtoken')
+const con = require('../../Connection/dbConnection')
 const router = express.Router()
 
-const allUsers = require('../../models/users/users')
+const User = require('../../models/users/users')
 const acessTokenSecret = 'youracessTokenSecret'
 
-router.post('/', (req, res) => {
-    const { username, password } = req.body
 
-    const user = allUsers.find(u => {
-        return u.username === username && u.password === password
-    })
+router.post('/', async(req, res) => {
+    const username = req.body.username
+    const password = req.body.password
 
-    if(user){
-        jwt.sign({
-            username: user.username,
-            role: user.role
-        }, acessTokenSecret , (err, accessToken) => {
-            res.json({
-                accessToken
+    try{
+        var query = { username: username, password: password}
+        const user = await User.find(query)
+        
+        if(user.length >= 1){
+            jwt.sign({
+                username: user[0].username,
+                role: user[0].role
+            }, acessTokenSecret, (err, accessToken) => {
+                res.json({
+                    accessToken
+                })
             })
-        })
-    }else{
-        res.send('Username and Password not match')
+        }else{
+            res.send('Username or Password not match')
+        }
+    }catch(err){
+        res.json('Error', err)
     }
 })
-
 
 module.exports = router

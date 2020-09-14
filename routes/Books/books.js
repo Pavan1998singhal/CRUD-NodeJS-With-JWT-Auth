@@ -32,7 +32,7 @@ router.get('/', verifyToken , (req, res) => {
 
 router.post('/', verifyToken, (req, res) => {
 
-    const { role } = req.user   // req.user has user so; { role } = user.role 
+    const { role } = req.user     // req.user has user so; { role } = user.role 
 
     if(role !== 'admin'){
         res.json('Access Denied')
