@@ -29,7 +29,7 @@ router.get('/', verifyToken , async(req, res) => {
         const { role } = req.user
 
         if(role !== 'admin'){
-            res.json('Access Denied !!')
+            res.json('User Role should be Admin')
         }else{
             try{
                 const getAllUsers = await User.find()
@@ -47,7 +47,7 @@ router.post('/', verifyToken ,async(req, res) => {
     const { role } = req.user
 
     if(role !== 'admin'){
-        res.json('Access Denied !!')
+        res.json('User Role should be Admin')
     }else{
         try{
             const user = new User({
@@ -76,7 +76,7 @@ router.patch('/:username', verifyToken, async(req, res) => {
     const { role } = req.user
 
     if(role !== 'admin'){
-        res.json('Access Denied !!')
+        res.json('User Role should be Admin')
     }else{
         try{
             const username = req.params.username
@@ -103,9 +103,9 @@ router.patch('/:username', verifyToken, async(req, res) => {
 
 router.delete('/:username', verifyToken, async(req, res) => {
     const { role } = req.user
-
+    
     if(role !== 'admin'){
-        res.json('Access Denied !!')
+        res.json('User Role should be Admin')
     }else{
         try{
             const username = req.params.username
