@@ -73,4 +73,58 @@ router.post('/', verifyToken ,async(req, res) => {
     }
 })
 
+router.patch('/:username', verifyToken, async(req, res) => {
+    const { role } = req.user
+
+    if(role !== 'admin'){
+        res.json('Access Denied !!')
+    }else{
+        try{
+            // res.json('UserName is ->'+ req.params.username)
+            const username = req.params.username
+
+            var query = { username: username}
+            const userExist = await User.find(query)
+
+            if(userExist.length >= 1){
+                // res.json(userExist[0])
+                userExist[0].username = req.body.username
+                userExist[0].password = req.body.password
+                userExist[0].role = req.body.role
+
+                const updateUser = await userExist[0].save()
+                res.json('User updated successfully !!')
+            }else{
+                res.json('User not exist')
+            }
+        }catch(err){
+            res.json('Error '+ err)
+        }
+    }
+})
+
+router.delete('/:username', verifyToken, async(req, res) => {
+    const { role } = req.user
+
+    if(role !== 'admin'){
+        res.json('Access Denied !!')
+    }else{
+        try{
+            const username = req.params.username
+
+            var query = { username: username}
+            const userExist = await User.find(query)
+
+            if(userExist.length >= 1){
+                const check = await User.findByIdAndDelete(userExist[0].id)
+                res.json(check)
+            }else{
+                res.json('User not exist')
+            }
+        }catch(err){
+            res.json('Error '+ err)
+        }
+    }
+})
+
 module.exports = router

@@ -35,7 +35,7 @@ const userSchema = new mongoose.Schema({
         required:true,
         default: 'reader'
     }
-    // we have three type of user ie; admin, member and reader.
+    // we have three type of users ie; admin, member and reader.
 })
 
 module.exports = mongoose.model('User', userSchema)
