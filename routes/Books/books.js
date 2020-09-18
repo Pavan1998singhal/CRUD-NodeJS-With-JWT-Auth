@@ -28,9 +28,14 @@ const verifyToken = (req, res, next) => {
 router.get('/:username', verifyToken , async(req, res) => {
 
     const { role } = req.user
+    const { username } = req.user
 
-    if(role !== 'member'){
-        res.json('Access Denied')
+    if(username != req.params.username){
+        res.json('login user and param user is different')
+    }
+
+    if(role !== 'member' ){
+        res.json('User Role should be member')
     }else{
         try{
 
@@ -57,9 +62,14 @@ router.get('/:username', verifyToken , async(req, res) => {
 router.post('/:username', verifyToken, async(req, res) => {
 
     const { role } = req.user     // req.user has user so; { role } = user.role 
+    const { username } = req.user
+
+    if(username != req.params.username){
+        res.json('login user and param user is different')
+    }
 
     if(role !== 'member'){
-        res.json('Access Denied')
+        res.json('User Role should be member')
     }else{
         try{
             const username = req.params.username
@@ -97,9 +107,14 @@ router.post('/:username', verifyToken, async(req, res) => {
 router.patch('/:username/:bookname', verifyToken, async(req, res) => {
 
     const { role } = req.user
+    const { username } = req.user
+
+    if(username != req.params.username){
+        res.json('login user and param user is different')
+    }
 
     if(role !== 'member'){
-        res.json('Access Denied !!')
+        res.json('User Role should be member')
     }else{
         try{
             const username = req.params.username
@@ -135,9 +150,14 @@ router.patch('/:username/:bookname', verifyToken, async(req, res) => {
 router.delete('/:username/:bookname', verifyToken, async(req, res) => {
 
     const { role } = req.user
+    const { username } = req.user
+
+    if(username != req.params.username){
+        res.json('login user and param user is different')
+    }
 
     if(role !== 'member'){
-        res.json('Access Denied !!')
+        res.json('User Role should be member')
     }else{
         try{
             const username = req.params.username
@@ -153,7 +173,7 @@ router.delete('/:username/:bookname', verifyToken, async(req, res) => {
 
                     await Book.findByIdAndDelete(bookExist[0].id)
                     res.json('Book deleted successfully !!')
-                    
+
                 }else{
                     res.json('Book not exist')
                 }
