@@ -26,10 +26,11 @@ app.use('/users', usersRouter)
 const booksRouter = require('../CRUD_Node_WIth_JWT/routes/Books/books')
 app.use('/books', booksRouter)
 
-
-//Route for ViewPage of Each User
+    
+//Route for ViewPage of Each User and like, comment, add to library option should at viewPage
 const viewPageRouter = require('../CRUD_Node_WIth_JWT/routes/viewPage/viewPageByUsername')
 app.use('/viewPage', viewPageRouter)
+
 
 app.listen(9000, () => {
     console.log('server started at port 9000')
