@@ -33,8 +33,7 @@ router.get('/:username', verifyToken , async(req, res) => {
     if(username != req.params.username){
         res.json('login user and param user is different')
     }
-
-    if(role !== 'member' ){
+    else if(role !== 'member' ){
         res.json('User Role should be member')
     }else{
         try{
@@ -67,8 +66,7 @@ router.post('/:username', verifyToken, async(req, res) => {
     if(username != req.params.username){
         res.json('login user and param user is different')
     }
-
-    if(role !== 'member'){
+    else if(role !== 'member'){
         res.json('User Role should be member')
     }else{
         try{
@@ -112,8 +110,7 @@ router.patch('/:username/:bookname', verifyToken, async(req, res) => {
     if(username != req.params.username){
         res.json('login user and param user is different')
     }
-
-    if(role !== 'member'){
+    else if(role !== 'member'){
         res.json('User Role should be member')
     }else{
         try{
@@ -155,8 +152,7 @@ router.delete('/:username/:bookname', verifyToken, async(req, res) => {
     if(username != req.params.username){
         res.json('login user and param user is different')
     }
-
-    if(role !== 'member'){
+    else if(role !== 'member'){
         res.json('User Role should be member')
     }else{
         try{

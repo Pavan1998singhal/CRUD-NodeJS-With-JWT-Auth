@@ -33,8 +33,7 @@ router.get('/:username', verifyToken, async(req, res) => {
     if(username != req.params.username){
         res.json('login user and param user is different')
     }
-
-    if(role !== 'member' && role !== 'reader'){
+    else if(role !== 'member' && role !== 'reader'){
         res.json('User must be member or reader')
     }else{
         try{
@@ -43,7 +42,7 @@ router.get('/:username', verifyToken, async(req, res) => {
             const userExist = await User.find({ username: username })
 
             if(userExist.length >= 1){
-                const allBooks = await Book.find()
+                const allBooks = await Book.find({ username: { $ne: username }})
                 res.json(allBooks)
             }else{
                 res.json('This user not exist')
