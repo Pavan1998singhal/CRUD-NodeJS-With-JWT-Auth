@@ -6,14 +6,14 @@ const TestImage = require('../../models/testingImage/testingImage')
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, './assests/uploads');
+        cb(null, './assests/uploads/images');
     },
     filename: (req, file, cb) => {
         cb(null, file.originalname);
     }
 })
 
-const fileFilter = (req, file, cb) => {
+const fileFilterImage = (req, file, cb) => {
     
     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/pdf' ){
         cb(null, true)
@@ -24,13 +24,15 @@ const fileFilter = (req, file, cb) => {
 
 };
 
-const upload = multer({
+const uploadImage = multer({
     storage: storage,
     limits: {
-        fileSize: 1024 * 1024 * 5   // accepting only upto 5mb
+        fileSize: 1024 * 1024 * 5,   // accepting only upto 5mb
+        //file: 1     // accepting only one imahge file
     },
-    // fileFilter: fileFilter
+    fileFilter: fileFilterImage
 });
+
 
 router.get('/', async(req,res) =>{
     try{
@@ -41,7 +43,7 @@ router.get('/', async(req,res) =>{
     }
 })
 
-router.post('/', upload.single('myFile') , async(req, res) => {
+router.post('/', uploadImage.single('myFile') , async(req, res) => {
     console.log(req.file)
 
     // const bookname = req.body.bookname
@@ -62,31 +64,6 @@ router.post('/', upload.single('myFile') , async(req, res) => {
     }catch(err){
         res.json('Error'+ err)
     }
-
-})
-
-router.post('/multiple', upload.any('myFile') , async(req, res) => {
-    console.log(req.files)
-    console.log(req.files.length)
-
-    // const bookname = req.body.bookname
-    // const author = req.body.author
-    // const pages = req.body.pages
-    // try{
-    //     const testImage = new TestImage({
-    //         // _id: new mongoose.Types.ObjectId(),
-    //         bookname: req.body.bookname,
-    //         author: req.body.author,
-    //         pages: req.body.pages,
-    //         bookImage: req.file.path 
-    //     })
-    
-    //     await testImage.save()
-    //     res.json('Upload successfully')
-
-    // }catch(err){
-    //     res.json('Error'+ err)
-    // }
 
 })
 

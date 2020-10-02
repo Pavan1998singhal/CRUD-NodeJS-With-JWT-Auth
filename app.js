@@ -7,7 +7,16 @@ app.use(express.json())
 app.use(cors())
 
 // make upload folder publicly so that it is accessible or get
-app.use('/assests/uploads' ,express.static('assests/uploads'))
+// app.use('/assests/uploads' ,express.static('assests/uploads'))
+
+
+// make images folder publicly so that it is accessible or get
+app.use('/assests/uploads/images' ,express.static('assests/uploads/images'))
+
+// make pdf folder publicly so that it is accessible or get
+app.use('/assests/uploads/pdf' ,express.static('assests/uploads/pdf'))
+
+
 
 // Connection with DB
 const connectDB = require('../CRUD_Node_WIth_JWT/Connection/dbConnection')
@@ -43,7 +52,12 @@ app.use('/testbooks', testbooksRouter)
 
 //Route for uploading images in DB  --> Testing Purpose
 const uploadImage = require('../CRUD_Node_WIth_JWT/routes/testUploadImages/testUplodeImages')
-app.use('/upload', uploadImage)
+app.use('/upload/image', uploadImage)
+
+
+//Route for uploading pdf in DB  --> Testing Purpose
+const uploadPdf = require('../CRUD_Node_WIth_JWT/routes/testUploadPdf/testUploadPdf')
+app.use('/upload/pdf', uploadPdf)
 
 
 app.listen(9000, () => {
